@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext, AuthProvider } from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const AuthContext = useContext(AuthProvider);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,15 +35,12 @@ export default function Login() {
 
       console.log("✅ Server response:", data);
 
-      // ✅ Store JWT token in localStorage (or sessionStorage)
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      AuthContext.login(JSON.stringify(data.user),data.token)
+
 
       alert(`Welcome ${data.user.name || data.user.email}!`);
       console.log("🔐 Saved token:", data.token);
 
-      // You can redirect to another page here (if using React Router)
-      // navigate("/dashboard");
     } catch (err) {
       console.error("❌ Error:", err);
       alert(err.message || "Login failed!");

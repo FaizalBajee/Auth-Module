@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 // import Connection from "./auth/Connection";
-const { login } = require("./controller/loginController"); 
+const { login } = require("./controller/loginController");
 
-const loginRoute = require('./router/loginRouter'); 
+const loginRoute = require("./router/loginRouter");
 const app = express();
 const port = 3000;
 
@@ -22,12 +22,18 @@ MongoClient.connect(uri, { useUnifiedTopology: true })
   .then((client) => {
     console.log("✅ Connected to MongoDB");
     db = client.db(dbName);
-    app.locals.db = client.db(dbName); 
+    app.locals.db = client.db(dbName);
   })
   .catch((err) => console.error("❌ MongoDB connection failed:", err));
 
- app.use("/login", loginRoute);
+app.use("/login", loginRoute);
 
 app.listen(port, () => {
   console.log("Running...");
 });
+
+// to add 2 project in 1 repo
+// git rm --cached auth-client
+// git add auth-client
+// git commit -m "Re-add auth-client as normal folder"
+// git push origin main
